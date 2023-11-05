@@ -10,14 +10,8 @@ const checkAuth = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(" ")[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decoded, "decodedddddddddddddd");
 
             req.usuario = await Usuario.findById(decoded.id).select("-password -confirmado -token -createdAt -updatedAt -__v");
-
-            console.log(req.usuario, "reppppppppppppppdd");
-
-
-
             return next();
         } catch (error) {
             return res.status(404).json({ msg: "Hubo un error" })
@@ -28,7 +22,7 @@ const checkAuth = async (req, res, next) => {
 
     if (!token) {
         const error = new Error("Token no valido al momento")
-        res.status(401).json({ msg: error.message })
+        return res.status(401).json({ msg: error.message })
     }
 
 
