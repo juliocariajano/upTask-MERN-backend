@@ -8,16 +8,17 @@ import tareasRoutes from "./routes/tareaRoutes.js";
 
 
 
-
-
-
 const app = express();
+app.use(cors())
+
 app.use(express.json())
 dotenv.config()
 conectarDb();
 
 // configurando los cors
 const whiteList = [process.env.FRONTEND_URL];
+// const whiteList = ["http://localhost:5173"];
+
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -30,7 +31,8 @@ const corsOptions = {
     }
 }
 
-app.use(cors(corsOptions))
+
+// console.log(corsOptions.origin, "coorsss")
 
 //Rutas
 app.use("/api/v1/usuarios", usuarioRoutes);

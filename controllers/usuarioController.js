@@ -1,7 +1,7 @@
 import Usuario from "../models/Usuarios.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
-import { emailRegistro } from "../helpers/email.js";
+import { emailRegistro, emailOlvidePassword } from "../helpers/email.js";
 
 const usuarios = (req, res) => {
     res.send("backend usuarios")
@@ -100,6 +100,7 @@ const confirmar = async (req, res) => {
 const olvidePassword = async (req, res) => {
     const { email } = req.body
     // comprobar si existe el usuario 
+    console.log(email, "aqui estoy ")
     const usuario = await Usuario.findOne({ email })
 
     if (!usuario) {
@@ -110,6 +111,15 @@ const olvidePassword = async (req, res) => {
     try {
         usuario.token = generarId();
         await usuario.save();
+
+
+        //Envio de email
+        emailOlvidePassword({
+            email: usuario.email,
+            nombre: usuario.nombre,
+            token: usuario.token
+        })
+
         res.json({ msg: "Hemos enviado un email con las instrucciones" })
     } catch (error) {
         console.log(error)
