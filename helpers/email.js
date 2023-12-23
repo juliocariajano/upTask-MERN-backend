@@ -5,12 +5,12 @@ export const emailRegistro = async (datos) => {
 
     const { email, nombre, token } = datos
 
-    var transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+    const transport = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
         auth: {
-            user: "38d0ec33ddf693",
-            pass: "32098e9722096d"
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     });
 
@@ -27,36 +27,25 @@ export const emailRegistro = async (datos) => {
     
     <a href="${process.env.FRONTEND_URL}/confirmar/${token}"> Comprobar cuenta</a>   
     <p> Si tu no creaste esta cuenta puedes ignorar este enlace:</p>
-
     `
     })
-
-
-
-
 }
 
 
-
-
-
 export const emailOlvidePassword = async (datos) => {
-
     const { email, nombre, token } = datos
 
     // TODO: Pasar a variables de entorno
-    var transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+    const transport = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
         auth: {
-            user: "38d0ec33ddf693",
-            pass: "32098e9722096d"
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     });
 
-
-
-    //   Informacion del email
+    // Informacion del email
     const info = await transport.sendMail({
         from: '"Gestor de Tareas" <cuentas@gestorTareas.com>',
         to: email,
