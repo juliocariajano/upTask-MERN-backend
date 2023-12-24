@@ -27,14 +27,14 @@ const obtenerProyecto = async (req, res) => {
     try {
         const { id } = req.params
 
-        const proyectoConsultado = await Proyecto.findById(id);
+        const proyecto = await Proyecto.findById(id);
 
-        if (!proyectoConsultado) {
+        if (!proyecto) {
             const error = new Error("No encontrado");
             return res.status(404).json({ msg: error.message })
         }
 
-        if (proyectoConsultado.creador.toString() !== req.usuario._id.toString()) {
+        if (proyecto.creador.toString() !== req.usuario._id.toString()) {
 
             const error = new Error("Accion no valida")
             return res.status(401).json({ msg: error.message })
@@ -42,12 +42,12 @@ const obtenerProyecto = async (req, res) => {
 
         // Obtener las tareas del proyecto
 
-        const tareas = await Tarea.find().where("proyecto").equals(proyectoConsultado._id);
+        // const tareas = await Tarea.find().where("proyecto").equals(proyectoConsultado._id);
 
-        res.json({
-            proyectoConsultado,
-            tareas
-        })
+        res.json(
+            proyecto,
+            // tareas
+        )
 
 
     } catch (error) {
